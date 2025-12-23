@@ -44,7 +44,7 @@ const Register = () => {
     
     setIsLoading(true);
     
-    const success = await register({
+    const result = await register({
       name: formData.name,
       email: formData.email,
       password: formData.password,
@@ -54,16 +54,24 @@ const Register = () => {
       industry: formData.industry,
     });
     
-    if (success) {
-      toast({
-        title: "Welcome to GreekLink!",
-        description: "Your account has been created successfully.",
-      });
-      navigate('/home');
+    if (result.success) {
+      // Check if email confirmation is needed
+      if (result.error) {
+        toast({
+          title: "Check your email",
+          description: result.error,
+        });
+      } else {
+        toast({
+          title: "Welcome to GreekLink!",
+          description: "Your account has been created successfully.",
+        });
+        navigate('/home');
+      }
     } else {
       toast({
         title: "Registration failed",
-        description: "An account with this email already exists.",
+        description: result.error || "An account with this email already exists.",
         variant: "destructive",
       });
     }
