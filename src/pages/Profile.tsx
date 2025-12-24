@@ -86,12 +86,12 @@ const Profile = () => {
       setIsEditing(false);
       toast({
         title: "Perfil actualizado",
-        description: "Tus cambios han sido guardados.",
+        description: "Your changes have been saved.",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "No se pudo actualizar el perfil",
+        description: "The profile could not be updated.",
         variant: "destructive",
       });
     }
@@ -119,7 +119,7 @@ const Profile = () => {
   if (!profile) {
     return (
       <div className="text-center py-12 text-muted-foreground">
-        Perfil no encontrado
+        Profile not found
       </div>
     );
   }
@@ -153,16 +153,16 @@ const Profile = () => {
                 <Dialog open={isEditing} onOpenChange={setIsEditing}>
                   <DialogTrigger asChild>
                     <Button variant="outline" onClick={handleEditOpen}>
-                      <Edit className="h-4 w-4 mr-2" />Editar Perfil
+                      <Edit className="h-4 w-4 mr-2" />Edit Profile
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="bg-card">
                     <DialogHeader>
-                      <DialogTitle>Editar Perfil</DialogTitle>
+                      <DialogTitle>Edit Profile</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div>
-                        <Label>Nombre</Label>
+                        <Label>Name</Label>
                         <Input
                           value={editForm.name}
                           onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
@@ -170,7 +170,7 @@ const Profile = () => {
                         />
                       </div>
                       <div>
-                        <Label>Biografía</Label>
+                        <Label>Biography</Label>
                         <Textarea
                           value={editForm.bio}
                           onChange={(e) => setEditForm(prev => ({ ...prev, bio: e.target.value }))}
@@ -179,7 +179,7 @@ const Profile = () => {
                         />
                       </div>
                       <div>
-                        <Label>Ubicación</Label>
+                        <Label>Location</Label>
                         <Input
                           value={editForm.location}
                           onChange={(e) => setEditForm(prev => ({ ...prev, location: e.target.value }))}
@@ -187,7 +187,7 @@ const Profile = () => {
                         />
                       </div>
                       <div>
-                        <Label>Industria</Label>
+                        <Label>Location</Label>
                         <Input
                           value={editForm.industry}
                           onChange={(e) => setEditForm(prev => ({ ...prev, industry: e.target.value }))}
@@ -196,7 +196,7 @@ const Profile = () => {
                       </div>
                       <div className="flex gap-2 justify-end">
                         <Button variant="outline" onClick={() => setIsEditing(false)}>
-                          <X className="h-4 w-4 mr-2" />Cancelar
+                          <X className="h-4 w-4 mr-2" />Cancel
                         </Button>
                         <Button onClick={handleSaveProfile} disabled={updateProfile.isPending}>
                           {updateProfile.isPending ? (
@@ -204,7 +204,7 @@ const Profile = () => {
                           ) : (
                             <Check className="h-4 w-4 mr-2" />
                           )}
-                          Guardar
+                          Save
                         </Button>
                       </div>
                     </div>
@@ -214,7 +214,7 @@ const Profile = () => {
                 <>
                   {isConnected ? (
                     <Button variant="outline" onClick={handleMessage}>
-                      <MessageCircle className="h-4 w-4 mr-2" />Mensaje
+                      <MessageCircle className="h-4 w-4 mr-2" />Message
                     </Button>
                   ) : (
                     <Button onClick={handleConnect} disabled={sendRequest.isPending}>
@@ -223,7 +223,7 @@ const Profile = () => {
                       ) : (
                         <UserPlus className="h-4 w-4 mr-2" />
                       )}
-                      Conectar
+                      Connect
                     </Button>
                   )}
                 </>
@@ -244,11 +244,11 @@ const Profile = () => {
       {/* Connections Section - Only for own profile */}
       {isOwnProfile && (
         <div className="card-premium p-6">
-          <h2 className="font-semibold text-foreground mb-2">Conexiones</h2>
+          <h2 className="font-semibold text-foreground mb-2">Connections</h2>
           <p className="text-muted-foreground">
-            {connections?.length || 0} conexiones · 
+            {connections?.length || 0} connections · 
             <Button variant="link" className="px-1" onClick={() => navigate('/connections')}>
-              Ver todas
+              See all
             </Button>
           </p>
         </div>
