@@ -20,6 +20,7 @@ const Register = () => {
     fraternity: '',
     gradYear: '',
     industry: '',
+    customIndustry: '',
     major: '',
     varsitySport: '',
     clubs: '', // comma-separated
@@ -45,10 +46,22 @@ const Register = () => {
       return;
     }
     
+    // If industry is Other, ensure customIndustry is provided
+    if (formData.industry === 'Other' && formData.customIndustry.trim().length < 2) {
+      toast({
+        title: 'Industry required',
+        description: 'Please specify your industry when selecting Other.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     // Convert clubs comma-separated string to array (optional)
     const clubsArray = formData.clubs.trim() ? formData.clubs.split(',').map(s => s.trim()).filter(Boolean) : undefined;
+
+    const industryToSave = formData.industry === 'Other' ? formData.customIndustry.trim() : formData.industry;
 
     const result = await register({
       name: formData.name,
@@ -56,8 +69,8 @@ const Register = () => {
       password: formData.password,
       university: formData.university,
       fraternity: formData.fraternity,
-      gradYear: parseInt(formData.gradYear),
-      industry: formData.industry,
+      gradYear: formData.gradYear ? parseInt(formData.gradYear) : undefined,
+      industry: industryToSave || undefined,
       major: formData.major || undefined,
       varsitySport: formData.varsitySport || undefined,
       clubs: clubsArray,
@@ -88,7 +101,8 @@ const Register = () => {
     formData.password === formData.confirmPassword &&
     formData.university.length >= 2 &&
     formData.fraternity &&
-    formData.gradYear;
+    formData.gradYear &&
+    (formData.industry !== 'Other' || formData.customIndustry.trim().length >= 2);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 20 }, (_, i) => currentYear - 10 + i);
@@ -280,6 +294,14 @@ const Register = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Custom Industry when 'Other' selected */}
+              {formData.industry === 'Other' && (
+                <div className="col-span-2 space-y-2">
+                  <Label className="text-foreground font-medium">Please specify industry</Label>
+                  <Input value={formData.customIndustry} onChange={(e) => handleChange('customIndustry', e.target.value)} placeholder="e.g. Marine Biology" className="h-11 bg-secondary/50" />
+                </div>
+              )}
 
               <div className="col-span-2 space-y-2">
                 <Label className="text-foreground font-medium">Major</Label>
