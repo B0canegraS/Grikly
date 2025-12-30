@@ -49,7 +49,7 @@ const Profile = () => {
     try {
       await sendRequest.mutateAsync(profileId);
       toast({
-        title: "Solicitud enviada",
+        title: "Request sent",
         description: `Your request to ${profile.name} has been sent.`,
       });
     } catch (error: any) {
