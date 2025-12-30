@@ -50,12 +50,12 @@ const Profile = () => {
       await sendRequest.mutateAsync(profileId);
       toast({
         title: "Solicitud enviada",
-        description: `Tu solicitud a ${profile.name} ha sido enviada.`,
+        description: `Your request to ${profile.name} has been sent.`,
       });
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "No se pudo enviar la solicitud",
+        description: error.message || "The request could not be sent.",
         variant: "destructive",
       });
     }
@@ -274,7 +274,7 @@ const Profile = () => {
             {profile.major && <span className="flex items-center gap-1">{profile.major}</span>}
             {profile.location && <span className="flex items-center gap-1"><MapPin className="h-4 w-4" />{profile.location}</span>}
             {profile.industry && <span className="flex items-center gap-1"><Briefcase className="h-4 w-4" />{profile.industry}</span>}
-            <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />Clase de {profile.grad_year}</span>
+            <span className="flex items-center gap-1"><Calendar className="h-4 w-4" />Class of {profile.grad_year}</span>
             {profile.varsity_sport && <span className="flex items-center gap-1">{profile.varsity_sport}</span>}
             {profile.clubs && profile.clubs.length > 0 && (
               <span className="flex items-center gap-1">Clubs: {profile.clubs.join(', ')}</span>
