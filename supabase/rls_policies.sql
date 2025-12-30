@@ -289,7 +289,18 @@ LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = public
 AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, name, university, fraternity, industry, grad_year)
+  INSERT INTO public.profiles (
+    id,
+    email,
+    name,
+    university,
+    fraternity,
+    industry,
+    grad_year,
+    major,
+    varsity_sport,
+    clubs
+  )
   VALUES (
     new.id,
     new.email,
@@ -297,7 +308,13 @@ BEGIN
     new.raw_user_meta_data ->> 'university',
     new.raw_user_meta_data ->> 'fraternity',
     new.raw_user_meta_data ->> 'industry',
-    (new.raw_user_meta_data ->> 'grad_year')::integer
+    (new.raw_user_meta_data ->> 'grad_year')::integer,
+    new.raw_user_meta_data ->> 'major',
+    new.raw_user_meta_data ->> 'varsity_sport',
+    CASE
+      WHEN (new.raw_user_meta_data -> 'clubs') IS NULL THEN NULL
+      ELSE (SELECT array_agg(value) FROM json_array_elements_text(new.raw_user_meta_data -> 'clubs') AS value)
+    END
   );
   RETURN new;
 END;
