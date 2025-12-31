@@ -296,11 +296,11 @@ BEGIN
     name,
     university,
     fraternity,
-    industry,
     grad_year,
-    clubs,
+    industry,
     major,
-    varsity_sport
+    varsity_sport,
+    clubs
   )
   VALUES (
     new.id,
@@ -311,22 +311,23 @@ BEGIN
     ),
     new.raw_user_meta_data ->> 'university',
     new.raw_user_meta_data ->> 'fraternity',
+    (new.raw_user_meta_data ->> 'grad_year')::int,
     new.raw_user_meta_data ->> 'industry',
-    (new.raw_user_meta_data ->> 'grad_year')::integer,
-    CASE
-      WHEN new.raw_user_meta_data -> 'clubs' IS NULL THEN NULL
-      ELSE (
-        SELECT array_agg(value)
-        FROM json_array_elements_text(new.raw_user_meta_data -> 'clubs') AS value
-      )
-    END,
     new.raw_user_meta_data ->> 'major',
-    new.raw_user_meta_data ->> 'varsity_sport'
+    new.raw_user_meta_data ->> 'varsity_sport',
+    CASE
+      WHEN jsonb_typeof(new.raw_user_meta_data -> 'clubs') = 'array'
+      THEN ARRAY(
+        SELECT jsonb_array_elements_text(new.raw_user_meta_data -> 'clubs')
+      )
+      ELSE NULL
+    END
   );
 
   RETURN new;
 END;
 $$;
+
 
 
 -- Create trigger if not exists
