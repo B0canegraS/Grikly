@@ -286,7 +286,8 @@ USING (
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
 LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = public
+SECURITY DEFINER
+SET search_path = public
 AS $$
 BEGIN
   INSERT INTO public.profiles (
@@ -304,21 +305,29 @@ BEGIN
   VALUES (
     new.id,
     new.email,
-    COALESCE(new.raw_user_meta_data ->> 'name', split_part(new.email, '@', 1)),
+    COALESCE(
+      new.raw_user_meta_data ->> 'name',
+      split_part(new.email, '@', 1)
+    ),
     new.raw_user_meta_data ->> 'university',
     new.raw_user_meta_data ->> 'fraternity',
     new.raw_user_meta_data ->> 'industry',
     (new.raw_user_meta_data ->> 'grad_year')::integer,
-    new.raw_user_meta_data ->> 'major',
-    new.raw_user_meta_data ->> 'varsity_sport',
     CASE
-      WHEN (new.raw_user_meta_data -> 'clubs') IS NULL THEN NULL
-      ELSE (SELECT array_agg(value) FROM json_array_elements_text(new.raw_user_meta_data -> 'clubs') AS value)
-    END
+      WHEN new.raw_user_meta_data -> 'clubs' IS NULL THEN NULL
+      ELSE (
+        SELECT array_agg(value)
+        FROM json_array_elements_text(new.raw_user_meta_data -> 'clubs') AS value
+      )
+    END,
+    new.raw_user_meta_data ->> 'major',
+    new.raw_user_meta_data ->> 'varsity_sport'
   );
+
   RETURN new;
 END;
 $$;
+
 
 -- Create trigger if not exists
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
