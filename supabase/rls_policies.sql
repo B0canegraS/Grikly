@@ -297,7 +297,7 @@ BEGIN
     fraternity,
     industry,
     grad_year,
-    clubs
+    clubs,
     major,
     varsity_sport
   )
