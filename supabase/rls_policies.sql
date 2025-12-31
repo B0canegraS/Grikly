@@ -297,9 +297,9 @@ BEGIN
     fraternity,
     industry,
     grad_year,
-    major,
-    varsity_sport,
     clubs
+    major,
+    varsity_sport
   )
   VALUES (
     new.id,
