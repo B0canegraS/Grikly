@@ -63,18 +63,21 @@ const Register = () => {
 
     const industryToSave = formData.industry === 'Other' ? formData.customIndustry.trim() : formData.industry;
 
-    const result = await register({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      university: formData.university,
-      fraternity: formData.fraternity,
-      gradYear: formData.gradYear ? parseInt(formData.gradYear) : undefined,
-      industry: industryToSave || undefined,
-      major: formData.major || undefined,
-      varsitySport: formData.varsitySport || undefined,
-      clubs: clubsArray,
-    });
+const result = await register({
+  name: formData.name,
+  email: formData.email,
+  password: formData.password,
+
+  university: formData.university,
+  fraternity: formData.fraternity,
+
+  grad_year: formData.gradYear ? parseInt(formData.gradYear) : null,
+  industry: industryToSave || null,
+  major: formData.major || null,
+  varsity_sport: formData.varsitySport || null,
+  clubs: clubsArray ?? null,
+});
+
     
     if (result.success) {
       // Redirect to OTP verification
