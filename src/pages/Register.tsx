@@ -24,6 +24,7 @@ const Register = () => {
     major: '',
     varsitySport: '',
     clubs: '', // comma-separated
+    chapter: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,20 +64,21 @@ const Register = () => {
 
     const industryToSave = formData.industry === 'Other' ? formData.customIndustry.trim() : formData.industry;
 
-const result = await register({
-  name: formData.name,
-  email: formData.email,
-  password: formData.password,
+    const result = await register({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
 
-  university: formData.university,
-  fraternity: formData.fraternity,
+      university: formData.university,
+      fraternity: formData.fraternity,
 
-  grad_year: formData.gradYear ? parseInt(formData.gradYear) : null,
-  industry: industryToSave || null,
-  major: formData.major || null,
-  varsity_sport: formData.varsitySport || null,
-  clubs: clubsArray ?? null,
-});
+      gradYear: formData.gradYear ? parseInt(formData.gradYear) : null,
+      industry: industryToSave || null,
+      major: formData.major || null,
+      varsitySport: formData.varsitySport || null,
+      clubs: clubsArray ?? null,
+      chapter: formData.chapter || null,
+    });
 
     
     if (result.success) {
@@ -282,6 +284,16 @@ const result = await register({
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-foreground font-medium">Chapter (optional)</Label>
+                <Input
+                  value={formData.chapter}
+                  onChange={(e) => handleChange('chapter', e.target.value)}
+                  placeholder="e.g. Sigma Chapter"
+                  className="h-11 bg-secondary/50"
+                />
               </div>
 
               <div className="col-span-2 space-y-2">
