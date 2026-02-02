@@ -85,15 +85,15 @@ const Search = () => {
         </div>
         <div className="flex gap-3 flex-wrap">
           <Select value={fratFilter} onValueChange={setFratFilter}>
-            <SelectTrigger className="w-48 bg-secondary/50"><SelectValue placeholder="Todas las Organizaciones" /></SelectTrigger>
+            <SelectTrigger className="w-48 bg-secondary/50"><SelectValue placeholder="All Organizations" /></SelectTrigger>
             <SelectContent className="max-h-60 bg-card">{FRATERNITIES.map(f => <SelectItem key={f} value={f}>{f}</SelectItem>)}</SelectContent>
           </Select>
           <Select value={industryFilter} onValueChange={setIndustryFilter}>
-            <SelectTrigger className="w-40 bg-secondary/50"><SelectValue placeholder="Todas las Industrias" /></SelectTrigger>
+            <SelectTrigger className="w-40 bg-secondary/50"><SelectValue placeholder="All Industries" /></SelectTrigger>
             <SelectContent className="bg-card">{INDUSTRIES.map(i => <SelectItem key={i} value={i}>{i}</SelectItem>)}</SelectContent>
           </Select>
           {(fratFilter || industryFilter) && (
-            <Button variant="ghost" onClick={() => { setFratFilter(''); setIndustryFilter(''); }}>Limpiar</Button>
+            <Button variant="ghost" onClick={() => { setFratFilter(''); setIndustryFilter(''); }}>Clean</Button>
           )}
         </div>
       </div>
